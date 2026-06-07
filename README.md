@@ -2,7 +2,7 @@
 
 Chromium headless shell と WebKit だけを入れた Playwright コンテナイメージです。
 
-標準イメージには Chromium headless shell / WebKit、Bun、Noto CJK フォントを入れます。
+標準イメージには Chromium headless shell / WebKit、Bun、curl、Noto CJK フォントを入れます。
 Firefox と full Chromium は意図的に含めません。headless CI で Chromium と WebKit だけを使うケースの
 image pull コストを抑えることを目的にしています。
 
@@ -11,19 +11,19 @@ image pull コストを抑えることを目的にしています。
 イメージは GitHub Container Registry へ publish します。
 
 ```text
-ghcr.io/iuill/narou-viewer-playwright:<playwright>-node<node>-bookworm-slim-chromium-headless-shell-webkit-amd64
+ghcr.io/iuill/narou-viewer-playwright:<playwright>-node<node>-bookworm-slim-chromium-headless-shell-webkit-curl-amd64
 ```
 
 例:
 
 ```text
-ghcr.io/iuill/narou-viewer-playwright:1.58.2-node20-bookworm-slim-chromium-headless-shell-webkit-amd64
+ghcr.io/iuill/narou-viewer-playwright:1.58.2-node20-bookworm-slim-chromium-headless-shell-webkit-curl-amd64
 ```
 
 毎日の rebuild では、日付付き tag も publish します。
 
 ```text
-ghcr.io/iuill/narou-viewer-playwright:1.58.2-node20-bookworm-slim-chromium-headless-shell-webkit-amd64-20260607
+ghcr.io/iuill/narou-viewer-playwright:1.58.2-node20-bookworm-slim-chromium-headless-shell-webkit-curl-amd64-20260607
 ```
 
 日付付き tag の package version は、workflow 内で直近 14 個だけ残します。
@@ -36,7 +36,7 @@ docker build \
   --build-arg PLAYWRIGHT_VERSION=1.58.2 \
   --build-arg NODE_VERSION=20 \
   --build-arg BUN_VERSION=1.3.11 \
-  -t ghcr.io/iuill/narou-viewer-playwright:1.58.2-node20-bookworm-slim-chromium-headless-shell-webkit-amd64 \
+  -t ghcr.io/iuill/narou-viewer-playwright:1.58.2-node20-bookworm-slim-chromium-headless-shell-webkit-curl-amd64 \
   .
 ```
 
@@ -44,12 +44,13 @@ docker build \
 
 ```bash
 PLAYWRIGHT_VERSION=1.58.2 \
-  scripts/smoke.sh ghcr.io/iuill/narou-viewer-playwright:1.58.2-node20-bookworm-slim-chromium-headless-shell-webkit-amd64
+  scripts/smoke.sh ghcr.io/iuill/narou-viewer-playwright:1.58.2-node20-bookworm-slim-chromium-headless-shell-webkit-curl-amd64
 ```
 
 smoke test では次を確認します。
 
 - Node / Bun が利用できること。
+- curl が利用できること。
 - Chromium headless shell / WebKit の browser payload が存在すること。
 - full Chromium の browser payload が存在しないこと。
 - Firefox の browser payload が存在しないこと。

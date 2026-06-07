@@ -13,6 +13,7 @@ docker run --rm \
 
     node --version
     bun --version
+    curl --version >/dev/null
 
     test -d /ms-playwright
     find /ms-playwright -maxdepth 1 -type d -name "chromium_headless_shell-*" | grep -q .

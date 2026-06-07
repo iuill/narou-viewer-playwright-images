@@ -9,13 +9,14 @@ ARG PLAYWRIGHT_VERSION
 ARG BUN_VERSION
 
 LABEL org.opencontainers.image.title="Playwright Chromium headless shell and WebKit image"
-LABEL org.opencontainers.image.description="Playwright runtime image with Chromium headless shell, WebKit, Bun, and Noto CJK fonts."
+LABEL org.opencontainers.image.description="Playwright runtime image with Chromium headless shell, WebKit, Bun, curl, and Noto CJK fonts."
 LABEL org.opencontainers.image.source="https://github.com/iuill/narou-viewer-playwright-images"
 LABEL org.opencontainers.image.licenses="MIT"
 LABEL io.playwright-lite.playwright-version="${PLAYWRIGHT_VERSION}"
 LABEL io.playwright-lite.node-version="${NODE_VERSION}"
 LABEL io.playwright-lite.bun-version="${BUN_VERSION}"
 LABEL io.playwright-lite.browser-set="chromium-headless-shell,webkit"
+LABEL io.playwright-lite.tools="bun,curl"
 
 ENV PLAYWRIGHT_BROWSERS_PATH=/ms-playwright
 
@@ -23,6 +24,7 @@ RUN apt-get update \
  && apt-get install -y --no-install-recommends \
       bash \
       ca-certificates \
+      curl \
       fontconfig \
       fonts-noto-cjk \
  && npm install -g "bun@${BUN_VERSION}" \

@@ -47,7 +47,7 @@ jobs:
           node_version="${{ github.event.inputs.node_version || env.DEFAULT_NODE_VERSION }}"
           bun_version="${{ github.event.inputs.bun_version || env.DEFAULT_BUN_VERSION }}"
           date_tag="$(date -u +%Y%m%d)"
-          tag_base="${playwright_version}-node${node_version}-bookworm-slim-chromium-headless-shell-webkit-amd64"
+          tag_base="${playwright_version}-node${node_version}-bookworm-slim-chromium-headless-shell-webkit-curl-amd64"
 
           {
             echo "PLAYWRIGHT_VERSION=${playwright_version}"
@@ -146,6 +146,7 @@ jobs:
             echo "Playwright: ${PLAYWRIGHT_VERSION}"
             echo "Node: ${NODE_VERSION}"
             echo "Bun: ${BUN_VERSION}"
+            echo "Tools: curl"
             echo "Browsers: chromium-headless-shell, webkit"
             echo "Platform: linux/amd64"
             echo "Date-tagged versions kept: ${DATE_TAGS_TO_KEEP}"
