@@ -27,6 +27,8 @@ env:
   DEFAULT_NODE_VERSION: "20"
   DEFAULT_BUN_VERSION: "1.3.11"
   IMAGE_NAME: ghcr.io/iuill/narou-viewer-playwright
+  PACKAGE_NAME: narou-viewer-playwright
+  DATE_TAGS_TO_KEEP: "14"
 
 jobs:
   build:
@@ -89,6 +91,50 @@ jobs:
           docker image push "${IMAGE_NAME}:${TAG_BASE}"
           docker image push "${IMAGE_NAME}:${TAG_BASE}-${DATE_TAG}"
 
+      - name: Prune old date-tagged image versions
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+
+          mapfile -t delete_ids < <(
+            gh api --paginate "/user/packages/container/${PACKAGE_NAME}/versions?per_page=100" \
+              --jq '
+                [ .[]
+                  | select(
+                      (.metadata.container.tags // [])
+                      | any(test("-[0-9]{8}$"))
+                    )
+                  | {
+                      id,
+                      created_at,
+                      keep:
+                        (
+                          (.metadata.container.tags // [])
+                          | any(. == env.TAG_BASE or . == (env.TAG_BASE + "-" + env.DATE_TAG))
+                        )
+                    }
+                ]
+                | sort_by(.created_at)
+                | reverse
+                | map(select(.keep | not))
+                | .['"${DATE_TAGS_TO_KEEP}"':]
+                | .[].id
+              '
+          )
+
+          if [ "${#delete_ids[@]}" -eq 0 ]; then
+            echo "No old date-tagged image versions to prune."
+            exit 0
+          fi
+
+          for version_id in "${delete_ids[@]}"; do
+            echo "Deleting package version ${version_id}"
+            gh api \
+              --method DELETE \
+              "/user/packages/container/${PACKAGE_NAME}/versions/${version_id}"
+          done
+
       - name: Summarize image
         run: |
           {
@@ -102,4 +148,5 @@ jobs:
             echo "Bun: ${BUN_VERSION}"
             echo "Browsers: chromium-headless-shell, webkit"
             echo "Platform: linux/amd64"
+            echo "Date-tagged versions kept: ${DATE_TAGS_TO_KEEP}"
           } >> "${GITHUB_STEP_SUMMARY}"

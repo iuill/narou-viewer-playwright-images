@@ -26,6 +26,9 @@ ghcr.io/iuill/narou-viewer-playwright:1.58.2-node20-bookworm-slim-chromium-headl
 ghcr.io/iuill/narou-viewer-playwright:1.58.2-node20-bookworm-slim-chromium-headless-shell-webkit-amd64-20260607
 ```
 
+日付付き tag の package version は、workflow 内で直近 14 個だけ残します。
+固定 tag と当日の tag は cleanup 対象から外します。
+
 ## ローカルビルド
 
 ```bash
@@ -68,6 +71,7 @@ daily rebuild の目的は、固定済み Playwright version のまま OS packag
 - Playwright の WebKit / Firefox build は glibc 前提のため、この用途では Alpine を base にしません。
 - `FROM mcr.microsoft.com/playwright` してから Firefox を削除しても、親 image layer に Firefox が残るため pull size は小さくなりません。
 - ローカル測定では、`mcr.microsoft.com/playwright:v1.58.2-noble` の `docker save | gzip` が約 899MB、この image が約 787MB でした。
+- GitHub Container Registry の storage / bandwidth は現時点では無料ですが、日付付き tag は増え続けないように cleanup します。
 
 ## License
 
