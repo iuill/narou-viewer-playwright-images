@@ -23,7 +23,7 @@ ghcr.io/iuill/narou-viewer-playwright:1.62.1-node24-bookworm-slim-chromium-headl
 毎日の rebuild では、日付付き tag も publish します。
 
 ```text
-ghcr.io/iuill/narou-viewer-playwright:1.62.1-node24-bookworm-slim-chromium-headless-shell-webkit-curl-amd64-20260810
+ghcr.io/iuill/narou-viewer-playwright:1.62.1-node24-bookworm-slim-chromium-headless-shell-webkit-curl-amd64-YYYYMMDD
 ```
 
 日付付き tag の package version は、workflow 内で直近 14 個だけ残します。
