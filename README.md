@@ -17,13 +17,13 @@ ghcr.io/iuill/narou-viewer-playwright:<playwright>-node<node>-bookworm-slim-chro
 例:
 
 ```text
-ghcr.io/iuill/narou-viewer-playwright:1.62.1-node24-bookworm-slim-chromium-headless-shell-webkit-curl-amd64
+ghcr.io/iuill/narou-viewer-playwright:1.61.1-node24-bookworm-slim-chromium-headless-shell-webkit-curl-amd64
 ```
 
 毎日の rebuild では、日付付き tag も publish します。
 
 ```text
-ghcr.io/iuill/narou-viewer-playwright:1.62.1-node24-bookworm-slim-chromium-headless-shell-webkit-curl-amd64-20260810
+ghcr.io/iuill/narou-viewer-playwright:1.61.1-node24-bookworm-slim-chromium-headless-shell-webkit-curl-amd64-20260810
 ```
 
 日付付き tag の package version は、workflow 内で直近 14 個だけ残します。
@@ -33,18 +33,18 @@ ghcr.io/iuill/narou-viewer-playwright:1.62.1-node24-bookworm-slim-chromium-headl
 
 ```bash
 docker build \
-  --build-arg PLAYWRIGHT_VERSION=1.62.1 \
+  --build-arg PLAYWRIGHT_VERSION=1.61.1 \
   --build-arg NODE_VERSION=24 \
   --build-arg BUN_VERSION=1.3.14 \
-  -t ghcr.io/iuill/narou-viewer-playwright:1.62.1-node24-bookworm-slim-chromium-headless-shell-webkit-curl-amd64 \
+  -t ghcr.io/iuill/narou-viewer-playwright:1.61.1-node24-bookworm-slim-chromium-headless-shell-webkit-curl-amd64 \
   .
 ```
 
 ## Smoke Test
 
 ```bash
-PLAYWRIGHT_VERSION=1.62.1 \
-  scripts/smoke.sh ghcr.io/iuill/narou-viewer-playwright:1.62.1-node24-bookworm-slim-chromium-headless-shell-webkit-curl-amd64
+PLAYWRIGHT_VERSION=1.61.1 \
+  scripts/smoke.sh ghcr.io/iuill/narou-viewer-playwright:1.61.1-node24-bookworm-slim-chromium-headless-shell-webkit-curl-amd64
 ```
 
 smoke test では次を確認します。

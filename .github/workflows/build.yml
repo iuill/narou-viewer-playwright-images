@@ -8,7 +8,7 @@ on:
       playwright_version:
         description: "Playwright version to install"
         required: true
-        default: "1.62.1"
+        default: "1.61.1"
       node_version:
         description: "Node major version for node:<version>-bookworm-slim"
         required: true
@@ -23,7 +23,7 @@ permissions:
   packages: write
 
 env:
-  DEFAULT_PLAYWRIGHT_VERSION: "1.62.1"
+  DEFAULT_PLAYWRIGHT_VERSION: "1.61.1"
   DEFAULT_NODE_VERSION: "24"
   DEFAULT_BUN_VERSION: "1.3.14"
   IMAGE_NAME: ghcr.io/iuill/narou-viewer-playwright
