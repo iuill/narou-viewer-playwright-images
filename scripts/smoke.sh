@@ -3,7 +3,7 @@
 set -euo pipefail
 
 image_ref="${1:?Usage: scripts/smoke.sh <image-ref>}"
-playwright_version="${PLAYWRIGHT_VERSION:-1.61.1}"
+playwright_version="${PLAYWRIGHT_VERSION:-1.62.1}"
 
 docker run --rm \
   -e PLAYWRIGHT_VERSION="${playwright_version}" \
