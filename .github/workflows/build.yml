@@ -12,7 +12,7 @@ on:
       node_version:
         description: "Node version for node:<version>-trixie-slim"
         required: true
-        default: "24.22.1"
+        default: "24"
       bun_version:
         description: "Bun version to install"
         required: true
@@ -24,7 +24,7 @@ permissions:
 
 env:
   DEFAULT_PLAYWRIGHT_VERSION: "1.63.0"
-  DEFAULT_NODE_VERSION: "24.22.1"
+  DEFAULT_NODE_VERSION: "24"
   DEFAULT_BUN_VERSION: "1.4.4"
   IMAGE_NAME: ghcr.io/iuill/narou-viewer-playwright
   PACKAGE_NAME: narou-viewer-playwright
@@ -37,7 +37,7 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
+        uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5.1.0
 
       - name: Resolve build settings
         run: |
@@ -46,9 +46,8 @@ jobs:
           playwright_version="${{ github.event.inputs.playwright_version || env.DEFAULT_PLAYWRIGHT_VERSION }}"
           node_version="${{ github.event.inputs.node_version || env.DEFAULT_NODE_VERSION }}"
           bun_version="${{ github.event.inputs.bun_version || env.DEFAULT_BUN_VERSION }}"
-          node_major="${node_version%%.*}"
           date_tag="$(date -u +%Y%m%d)"
-          tag_base="${playwright_version}-node${node_major}-trixie-slim-chromium-headless-shell-webkit-curl-amd64"
+          tag_base="${playwright_version}-node${node_version}-trixie-slim-chromium-headless-shell-webkit-curl-amd64"
 
           {
             echo "PLAYWRIGHT_VERSION=${playwright_version}"
@@ -59,7 +58,7 @@ jobs:
           } >> "${GITHUB_ENV}"
 
       - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@f87e5991a6d7451dcb8d9637bfbc97413f497069 # v4
+        uses: docker/setup-buildx-action@f87e5991a6d7451dcb8d9637bfbc97413f497069 # v4.4.1
 
       - name: Build image for smoke test
         run: |
@@ -80,7 +79,7 @@ jobs:
         run: scripts/smoke.sh "${IMAGE_NAME}:${TAG_BASE}"
 
       - name: Login to GitHub Container Registry
-        uses: docker/login-action@81c6f93d4bc991e510b342a00b419b3bb4efc5c6 # v4
+        uses: docker/login-action@81c6f93d4bc991e510b342a00b419b3bb4efc5c6 # v4.7.0
         with:
           registry: ghcr.io
           username: ${{ github.actor }}

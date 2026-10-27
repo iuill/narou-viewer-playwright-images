@@ -34,7 +34,7 @@ ghcr.io/iuill/narou-viewer-playwright:1.63.0-node24-trixie-slim-chromium-headles
 ```bash
 docker build \
   --build-arg PLAYWRIGHT_VERSION=1.63.0 \
-  --build-arg NODE_VERSION=24.22.1 \
+  --build-arg NODE_VERSION=24 \
   --build-arg BUN_VERSION=1.4.4 \
   -t ghcr.io/iuill/narou-viewer-playwright:1.63.0-node24-trixie-slim-chromium-headless-shell-webkit-curl-amd64 \
   .
@@ -61,7 +61,7 @@ smoke test では次を確認します。
 
 イメージは Playwright version 固定で扱います。daily schedule では Playwright 自体を自動更新しません。
 daily rebuild の目的は、固定済み Playwright version のまま OS package 更新を取り込むことです。workflow は毎回 `--pull --no-cache` で base image と OS package を更新します。
-Node / Bun の既知脆弱性は、固定版の更新後に再buildして取り込みます。公開 tag の `node<node>` 部分は major version とし、固定する Node の patch version は Dockerfile / workflow input で管理します。
+Node は major 24 の tag を使い、日次 rebuild で最新の24系 patch を取り込みます。Bun は固定版を更新してから再buildします。
 
 利用側で `@playwright/test` を更新するときは、このリポジトリの `PLAYWRIGHT_VERSION` も合わせて更新し、
 生成された image を smoke test で確認します。
