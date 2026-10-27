@@ -113,7 +113,7 @@ jobs:
                       keep:
                         (
                           (.metadata.container.tags // [])
-                          | any(. == env.TAG_BASE or . == (env.TAG_BASE + "-" + env.DATE_TAG))
+                          | any((test("-[0-9]{8}$") | not) or . == (env.TAG_BASE + "-" + env.DATE_TAG))
                         )
                     }
                 ]
